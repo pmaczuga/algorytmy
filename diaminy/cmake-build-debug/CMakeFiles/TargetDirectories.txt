@@ -1,0 +1,3 @@
+C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/cmake-build-debug/CMakeFiles/diaminy.dir
+C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/cmake-build-debug/CMakeFiles/rebuild_cache.dir

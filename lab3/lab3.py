@@ -34,7 +34,22 @@ def zad1():
         a += 0.1
 
 def index( i, j ):
-    return math.floor((i+j)*(i+j+1)/2+i) + 1
+    return (i+j)*(i+j+1)//2+i + 1
+
+def check_coloring(G, k, sol):
+    colors = dict()
+    for v in range(len(G)):
+        for color in range(k):
+            if index(v, color) in sol:
+                if v in colors:
+                    return "Wrong coloring"
+                colors[v] = color
+
+    for e in edgeList(G):
+        if colors[e[0]] == colors[e[1]]:
+            return "Wrong coloring"
+
+    return colors
 
 def zad2a():
     G = loadGraph(sys.argv[1])
@@ -43,7 +58,7 @@ def zad2a():
     for v in range(len(G)):
         all_colors = []
         for color1 in range(k):
-            for color2 in range(k):
+            for color2 in range(color1 + 1, k):
                 if color1 != color2:
                     cnf.append([-index(v, color1), -index(v, color2)])
             all_colors.append(index(v, color1))
@@ -51,8 +66,12 @@ def zad2a():
     for e in edgeList(G):
         for color in range(k):
             cnf.append([-index(e[0], color), -index(e[1], color)])
-    print(cnf)
-    print(pycosat.solve(cnf))
+
+    sol = pycosat.solve(cnf)
+    if sol != u'UNSAT':
+        print(check_coloring(G, k, sol))
+    else:
+        print(sol)
 
 def main():
     # zad1()
