@@ -6,9 +6,13 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/main.cpp
+/home/pawel/Documents/algorytmy/diaminy/main.cpp
 iostream
 -
 fstream
+-
+list
+-
+iterator
 -
 

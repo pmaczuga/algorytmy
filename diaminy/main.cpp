@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <list>
+#include <iterator>
 
 using namespace std;
 
@@ -11,23 +13,40 @@ enum Field {
     Empty
 };
 
-class Player {
+class Vector2 {
 public:
+    Vector2(int x, int y);
+
+    int getX() { return x; };
+    int getY() { return y; };
+private:
     int x;
     int y;
+};
+
+Vector2::Vector2(int x, int y) : x(x), y(y) {}
+
+
+class Player {
+public:
+    Vector2 pos;
+    Player(Vector2 pos);
     void setPos(int _x, int _y);
 };
 
-void Player::setPos(int _x, int _y) {
-    x = _x;
-    y = _y;
+Player::Player(Vector2 pos) : pos(pos) { }
+
+void Player::setPos(int x, int y) {
+    pos = Vector2(x, y);
 }
 
 int height;
 int width;
 int maxMoves;
+int jewels = 0;
 Field maze[200][200];
-Player player;
+Player player(Vector2(0, 0));
+
 
 void init(string filename) {
     ifstream instream;
@@ -53,6 +72,7 @@ void init(string filename) {
                     break;
                 case '+':
                     maze[x][y] = Jewel;
+                    jewels++;
                     x++;
                     break;
                 case '*':
@@ -68,7 +88,7 @@ void init(string filename) {
                     x++;
                     break;
                 case '.':
-                    maze[x][y] = Empty;
+                    maze[x][y] = Hole;
                     player.setPos(x, y);
                     x++;
                     break;
@@ -85,12 +105,120 @@ void init(string filename) {
     instream.close();
 }
 
-Player move() {
+Vector2 directionToVector2(int direction) {
+    switch (direction) {
+        case 0:
+            return Vector2(0, -1);
+        case 1:
+            return Vector2(1, -1);
+        case 2:
+            return Vector2(1, 0);
+        case 3:
+            return Vector2(1, 1);
+        case 4:
+            return Vector2(0, 1);
+        case 5:
+            return Vector2(-1, 1);
+        case 6:
+            return Vector2(-1, 0);
+        case 7:
+            return Vector2(-1, -1);
+    }
+}
 
+void putJewelsBack(list <Vector2> jewelsToPut) {
+    list <Vector2> :: iterator it;
+    for (it = jewelsToPut.begin(); it != jewelsToPut.end(); ++it) {
+        maze[(*it).getX()][(*it).getY()] = Jewel;
+    }
+}
+
+string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int moves_left) {
+    Vector2 direction = directionToVector2(intDirection);
+    list <Vector2> foundJewels;
+
+    // if we don't have more moves - we lost
+    if (moves_left == 0) {
+        return "NOSOL";
+    }
+
+    // if we can't move - there is no point checking further
+    if (maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] == Wall)
+        return "NOSOL";
+
+    while(maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] != Wall) {
+        pos = Vector2(pos.getX() + direction.getX(), pos.getY() + direction.getY());
+
+        if (maze[pos.getX()][pos.getY()] == Mine) {
+            putJewelsBack(foundJewels);
+            return "NOSOL";
+        } else if (maze[pos.getX()][pos.getY()] == Jewel) {
+            maze[pos.getX()][pos.getY()] = Empty;
+            jewewls_left--;
+            foundJewels.push_back(pos);
+        } else if (maze[pos.getX()][pos.getY()] == Hole) {
+            break;
+        }
+    }
+
+    // if we found all jewels - game is over - we won
+    if (jewewls_left == 0){
+        cout << direction.getX() << " " << direction.getY() << endl;
+        return to_string(intDirection);
+    }
+
+    // Try moving in all directions
+    for (int i = 0; i < 8; i++) {
+        // going back when we didn't find any jewels is pointless
+        if (foundJewels.empty() && i == (intDirection + 4) % 8)
+            continue;
+
+        string sol = solve_recursive(pos, i, jewewls_left, moves_left - 1);
+        if (sol != "NOSOL") {
+            cout << direction.getX() << " " << direction.getY() << endl;
+            return to_string(intDirection) + sol;
+        }
+    }
+
+    // put back all jewels
+    putJewelsBack(foundJewels);
+    return "NOSOL";
 }
 
 string solve() {
+    for (int i = 0; i < 8; i++) {
+        string sol = solve_recursive(player.pos, i, jewels, 20);
+        if (sol != "NOSOL")
+            return sol;
+    }
+    return "NOSOL";
+}
 
+void print_maze() {
+    cout << endl << "MAZE: " << endl;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            switch (maze[x][y]) {
+                case Wall:
+                    cout << "#";
+                    break;
+                case Empty:
+                    cout << " ";
+                    break;
+                case Mine:
+                    cout << "*";
+                    break;
+                case Jewel:
+                    cout << "+";
+                    break;
+                case Hole:
+                    cout << "O";
+                    break;
+            }
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -101,7 +229,10 @@ int main(int argc, char *argv[]) {
 
     string filename = argv[1];
     init(filename);
-    solve();
+
+    print_maze();
+
+    cout << solve();
 
     return 0;
 }
