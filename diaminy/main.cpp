@@ -2,6 +2,7 @@
 #include <fstream>
 #include <list>
 #include <iterator>
+#include <algorithm>
 
 using namespace std;
 
@@ -26,7 +27,6 @@ private:
 
 Vector2::Vector2(int x, int y) : x(x), y(y) {}
 
-
 class Player {
 public:
     Vector2 pos;
@@ -45,6 +45,7 @@ int width;
 int maxMoves;
 int jewels = 0;
 Field maze[200][200];
+list <Vector2> lastVisited;
 Player player(Vector2(0, 0));
 
 
@@ -133,6 +134,16 @@ void putJewelsBack(list <Vector2> jewelsToPut) {
     }
 }
 
+bool contains(list<Vector2> iterable, Vector2 el) {
+    list <Vector2> :: iterator it;
+    for (it = iterable.begin(); it != iterable.end(); ++it) {
+        if ((*it).getX() == el.getX() && (*it).getY() == el.getY()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int moves_left) {
     Vector2 direction = directionToVector2(intDirection);
     list <Vector2> foundJewels;
@@ -156,14 +167,22 @@ string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int move
             maze[pos.getX()][pos.getY()] = Empty;
             jewewls_left--;
             foundJewels.push_back(pos);
+            // clear lastVisited list - if we found jewel going back is not pointless
+            lastVisited.clear();
         } else if (maze[pos.getX()][pos.getY()] == Hole) {
             break;
         }
     }
 
+    // if we are in the same position as we used to be - checking further is pointless
+    if (contains(lastVisited, pos)) {
+        return "NOSOL";
+    }
+    // add new position to last visited list
+    lastVisited.push_back(pos);
+
     // if we found all jewels - game is over - we won
     if (jewewls_left == 0){
-        cout << direction.getX() << " " << direction.getY() << endl;
         return to_string(intDirection);
     }
 
@@ -175,7 +194,6 @@ string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int move
 
         string sol = solve_recursive(pos, i, jewewls_left, moves_left - 1);
         if (sol != "NOSOL") {
-            cout << direction.getX() << " " << direction.getY() << endl;
             return to_string(intDirection) + sol;
         }
     }
@@ -187,7 +205,7 @@ string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int move
 
 string solve() {
     for (int i = 0; i < 8; i++) {
-        string sol = solve_recursive(player.pos, i, jewels, 20);
+        string sol = solve_recursive(player.pos, i, jewels, maxMoves);
         if (sol != "NOSOL")
             return sol;
     }
