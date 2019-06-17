@@ -200,6 +200,9 @@ string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int move
 
     // put back all jewels
     putJewelsBack(foundJewels);
+    // pop last visited position
+    if (!lastVisited.empty())
+        lastVisited.pop_back();
     return "NOSOL";
 }
 

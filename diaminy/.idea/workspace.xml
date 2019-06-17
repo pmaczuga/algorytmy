@@ -35,8 +35,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="194" column="75" lean-forward="true" selection-start-line="194" selection-start-column="75" selection-end-line="194" selection-end-column="75" />
+            <state relative-caret-position="434">
+              <caret line="196" column="35" lean-forward="true" selection-start-line="196" selection-start-column="35" selection-end-line="196" selection-end-column="35" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -91,12 +91,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="diaminy" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="puzzle.txt" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy">
+  <component name="RunManager" selected="CMake Application.diaminy">
+    <configuration name="diaminy (1)" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="puzzle.txt" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="diaminy" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="maze.txt" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.diaminy" />
+      <item itemvalue="CMake Application.diaminy (1)" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -111,16 +120,17 @@
       <workItem from="1559839950278" duration="5336000" />
       <workItem from="1559998139728" duration="11782000" />
       <workItem from="1560069807195" duration="3093000" />
+      <workItem from="1560236501231" duration="1039000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20211000" />
+    <option name="totallyTimeSpent" value="21250000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1925844" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19479801" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -151,8 +161,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="194" column="75" lean-forward="true" selection-start-line="194" selection-start-column="75" selection-end-line="194" selection-end-column="75" />
+        <state relative-caret-position="434">
+          <caret line="196" column="35" lean-forward="true" selection-start-line="196" selection-start-column="35" selection-end-line="196" selection-end-column="35" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
