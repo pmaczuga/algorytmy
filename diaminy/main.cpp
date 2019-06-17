@@ -65,61 +65,56 @@ Move movementArray[200][200][8];
 Player player(Vector2(0, 0));
 
 
-void init(string filename) {
-    ifstream instream;
-    instream.open(filename);
+void init(istream &instream) {
     char character;
-    if (instream.is_open()) {
 
-        instream >> height;
-        instream >> width;
-        instream >> maxMoves;
+    instream >> height;
+    instream >> width;
+    instream >> maxMoves;
 
-        instream >> noskipws >> character; // skip endline
+    instream >> noskipws >> character; // skip endline
 
-        int x = 0;
-        int y = 0;
-        while (!instream.eof()) {
-            instream >> noskipws >> character;
+    int x = 0;
+    int y = 0;
+    while (!instream.eof()) {
+        instream >> noskipws >> character;
 
-            switch (character) {
-                case '#':
-                    maze[x][y] = Wall;
-                    x++;
-                    break;
-                case '+':
-                    maze[x][y] = Jewel;
-                    jewels++;
-                    x++;
-                    break;
-                case '*':
-                    maze[x][y] = Mine;
-                    x++;
-                    break;
-                case 'O':
-                    maze[x][y] = Hole;
-                    x++;
-                    break;
-                case ' ':
-                    maze[x][y] = Empty;
-                    x++;
-                    break;
-                case '.':
-                    maze[x][y] = Hole;
-                    player.setPos(x, y);
-                    x++;
-                    break;
-                case '\n':
-                    x = 0;
-                    y++;
-                    break;
-                default:
-                    cout << "Illegal character in " << filename;
-                    exit(1);
-            }
+        switch (character) {
+            case '#':
+                maze[x][y] = Wall;
+                x++;
+                break;
+            case '+':
+                maze[x][y] = Jewel;
+                jewels++;
+                x++;
+                break;
+            case '*':
+                maze[x][y] = Mine;
+                x++;
+                break;
+            case 'O':
+                maze[x][y] = Hole;
+                x++;
+                break;
+            case ' ':
+                maze[x][y] = Empty;
+                x++;
+                break;
+            case '.':
+                maze[x][y] = Hole;
+                player.setPos(x, y);
+                x++;
+                break;
+            case '\n':
+                x = 0;
+                y++;
+                break;
+            default:
+                cout << "Illegal character" << endl;
+                exit(1);
         }
     }
-    instream.close();
 
     // init fieldState array;
     State quiteBadState;
@@ -315,13 +310,13 @@ void print_maze() {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        cout << "Wrong number of arguments.\nArguments:\n - filename\n";
-        exit(0);
-    }
 
-    string filename = argv[1];
-    init(filename);
+    if (argc < 2) {
+        init(cin);
+    } else {
+        ifstream instream(argv[1]);
+        init(instream);
+    }
 
 //    print_maze();
 
