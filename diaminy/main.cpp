@@ -1,18 +1,16 @@
 #include <iostream>
 #include <fstream>
 #include <list>
+#include <vector>
 #include <iterator>
 #include <algorithm>
+#include <limits>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
-enum Field {
-    Wall = 1,
-    Jewel,
-    Mine,
-    Hole,
-    Empty
-};
+enum Field { Wall = 1, Jewel, Mine, Hole, Empty };
 
 class Vector2 {
 public:
@@ -40,12 +38,30 @@ void Player::setPos(int x, int y) {
     pos = Vector2(x, y);
 }
 
+class Move {
+public:
+    Vector2 newPos;
+    vector <Vector2> jewelsOnPath;
+    Move();
+    Move(Vector2 pos);
+};
+
+Move::Move() : newPos(Vector2(0, 0)) { }
+Move::Move(Vector2 pos) : newPos(pos) { }
+
+struct State {
+    int movesLeft;
+    int jewelsLeft;
+};
+
+string noSolString = "BRAK";
 int height;
 int width;
 int maxMoves;
 int jewels = 0;
 Field maze[200][200];
-list <Vector2> lastVisited;
+State fieldState[200][200];
+Move movementArray[200][200][8];
 Player player(Vector2(0, 0));
 
 
@@ -104,6 +120,16 @@ void init(string filename) {
         }
     }
     instream.close();
+
+    // init fieldState array;
+    State quiteBadState;
+    quiteBadState.jewelsLeft = numeric_limits<int>::max();
+    quiteBadState.movesLeft = 0;
+    for (int i = 0;i < 200; i++) {
+        for (int j = 0; j < 200; j++) {
+            fieldState[i][j] = quiteBadState;
+        }
+    }
 }
 
 Vector2 directionToVector2(int direction) {
@@ -125,64 +151,110 @@ Vector2 directionToVector2(int direction) {
         case 7:
             return Vector2(-1, -1);
     }
+    return Vector2(0, 0);
 }
 
-void putJewelsBack(list <Vector2> jewelsToPut) {
+void putJewelsBack(list <Vector2> *jewelsToPut) {
     list <Vector2> :: iterator it;
-    for (it = jewelsToPut.begin(); it != jewelsToPut.end(); ++it) {
-        maze[(*it).getX()][(*it).getY()] = Jewel;
+    for (it = jewelsToPut->begin(); it != jewelsToPut->end(); ++it) {
+        maze[it->getX()][it->getY()] = Jewel;
     }
 }
 
-bool contains(list<Vector2> iterable, Vector2 el) {
+bool contains(list<Vector2> *iterable, Vector2 el) {
     list <Vector2> :: iterator it;
-    for (it = iterable.begin(); it != iterable.end(); ++it) {
-        if ((*it).getX() == el.getX() && (*it).getY() == el.getY()) {
+    for (it = iterable->begin(); it != iterable->end(); ++it) {
+        if (it->getX() == el.getX() && it->getY() == el.getY()) {
             return true;
         }
     }
     return false;
 }
 
-string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int moves_left) {
+void prepareMovementArray() {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (maze[x][y] == Empty || maze[x][y] == Hole || maze[x][y] == Jewel) {
+                for (int i = 0; i< 8; i++) {
+                    int newX = x;
+                    int newY = y;
+                    Vector2 direction = directionToVector2(i);
+                    movementArray[x][y][i] = Move();
+                    while(maze[newX + direction.getX()][newY + direction.getY()] != Wall) {
+                        newX = newX + direction.getX();
+                        newY = newY + direction.getY();
+
+                        if (maze[newX][newY] == Jewel) {
+                            movementArray[x][y][i].jewelsOnPath.emplace_back(Vector2(newX, newY));
+                        } else if (maze[newX][newY] == Hole || maze[newX][newY] == Mine) {
+                            break;
+                        }
+                    }
+                    movementArray[x][y][i].newPos = Vector2(newX, newY);
+                }
+            }
+        }
+    }
+}
+
+string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesLeft) {
     Vector2 direction = directionToVector2(intDirection);
     list <Vector2> foundJewels;
 
     // if we don't have more moves - we lost
-    if (moves_left == 0) {
-        return "NOSOL";
+    if (movesLeft == 0) {
+        return noSolString;
     }
 
-    // if we can't move - there is no point checking further
+    // if we won't move (because of wall) - there is no point checking further
     if (maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] == Wall)
-        return "NOSOL";
+        return noSolString;
 
-    while(maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] != Wall) {
-        pos = Vector2(pos.getX() + direction.getX(), pos.getY() + direction.getY());
-
-        if (maze[pos.getX()][pos.getY()] == Mine) {
-            putJewelsBack(foundJewels);
-            return "NOSOL";
-        } else if (maze[pos.getX()][pos.getY()] == Jewel) {
-            maze[pos.getX()][pos.getY()] = Empty;
-            jewewls_left--;
-            foundJewels.push_back(pos);
-            // clear lastVisited list - if we found jewel going back is not pointless
-            lastVisited.clear();
-        } else if (maze[pos.getX()][pos.getY()] == Hole) {
-            break;
+    // make move
+    Move *move = &movementArray[pos.getX()][pos.getY()][intDirection];
+    pos = move->newPos;
+    if (maze[pos.getX()][pos.getY()] == Mine) {
+        return noSolString;
+    }
+    vector <Vector2> :: iterator it;
+    for (it = move->jewelsOnPath.begin(); it != move->jewelsOnPath.end(); ++it) {
+        if (maze[it->getX()][it->getY()] == Jewel) {
+            maze[it->getX()][it->getY()] = Empty;
+            jewelsLeft--;
+            foundJewels.emplace_back((*it));
         }
     }
 
-    // if we are in the same position as we used to be - checking further is pointless
-    if (contains(lastVisited, pos)) {
-        return "NOSOL";
+//    while(maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] != Wall) {
+//        pos = Vector2(pos.getX() + direction.getX(), pos.getY() + direction.getY());
+//
+//        if (maze[pos.getX()][pos.getY()] == Mine) {
+//            putJewelsBack(&foundJewels);
+//            return noSolString;
+//        } else if (maze[pos.getX()][pos.getY()] == Jewel) {
+//            maze[pos.getX()][pos.getY()] = Empty;
+//            jewelsLeft--;
+//            foundJewels.push_back(pos);
+//        } else if (maze[pos.getX()][pos.getY()] == Hole) {
+//            break;
+//        }
+//    }
+
+    // if we are in worse state than before - checking further is pointless
+    State previousState = fieldState[pos.getX()][pos.getY()];
+    if (movesLeft < previousState.movesLeft && jewelsLeft > previousState.jewelsLeft) {
+        putJewelsBack(&foundJewels);
+        return noSolString;
     }
-    // add new position to last visited list
-    lastVisited.push_back(pos);
+
+    // if we are in definitely better state - save that to fieldState array
+    if (movesLeft > previousState.movesLeft && jewelsLeft < previousState.jewelsLeft) {
+        fieldState[pos.getX()][pos.getY()].jewelsLeft = jewelsLeft;
+        fieldState[pos.getX()][pos.getY()].movesLeft = movesLeft;
+    }
 
     // if we found all jewels - game is over - we won
-    if (jewewls_left == 0){
+    if (jewelsLeft == 0){
         return to_string(intDirection);
     }
 
@@ -192,27 +264,27 @@ string solve_recursive(Vector2 pos, int intDirection, int jewewls_left, int move
         if (foundJewels.empty() && i == (intDirection + 4) % 8)
             continue;
 
-        string sol = solve_recursive(pos, i, jewewls_left, moves_left - 1);
-        if (sol != "NOSOL") {
+        string sol = solve_recursive(pos, i, jewelsLeft, movesLeft - 1);
+        if (sol != noSolString) {
             return to_string(intDirection) + sol;
         }
     }
 
     // put back all jewels
-    putJewelsBack(foundJewels);
-    // pop last visited position
-    if (!lastVisited.empty())
-        lastVisited.pop_back();
-    return "NOSOL";
+    putJewelsBack(&foundJewels);
+
+    return noSolString;
 }
 
 string solve() {
+    prepareMovementArray();
+//    cout << "Done preparing!" << endl;
     for (int i = 0; i < 8; i++) {
         string sol = solve_recursive(player.pos, i, jewels, maxMoves);
-        if (sol != "NOSOL")
+        if (sol != noSolString)
             return sol;
     }
-    return "NOSOL";
+    return noSolString;
 }
 
 void print_maze() {
@@ -251,9 +323,24 @@ int main(int argc, char *argv[]) {
     string filename = argv[1];
     init(filename);
 
-    print_maze();
+//    print_maze();
 
-    cout << solve();
+    auto start = chrono::system_clock::now();
+
+    // solve maze
+    string sol = solve();
+
+    auto end = chrono::system_clock::now();
+    chrono::duration<double> elapsed_seconds = end-start;
+
+    cout << sol;
+    if (argc >= 3) {
+        ofstream os;
+        os.open(argv[2]);
+        os << sol;
+        os.close();
+    }
+//    cout << endl << "Time: " << elapsed_seconds.count();
 
     return 0;
 }

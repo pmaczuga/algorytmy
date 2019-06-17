@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/diaminy.dir/main.cpp.o"
+  "CMakeFiles/diaminy.dir/main.cpp.obj"
   "diaminy.pdb"
-  "diaminy"
+  "diaminy.exe"
+  "diaminy.exe.manifest"
+  "libdiaminy.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

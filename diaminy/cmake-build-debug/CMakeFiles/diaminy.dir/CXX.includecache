@@ -6,15 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/home/pawel/Documents/algorytmy/diaminy/main.cpp
+C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/main.cpp
 iostream
 -
 fstream
 -
 list
 -
+vector
+-
 iterator
 -
 algorithm
+-
+limits
+-
+ctime
+-
+chrono
 -
 
