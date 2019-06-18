@@ -3,6 +3,10 @@ import re
 
 def main():
     filename = sys.argv[1]
+    if len(sys.argv) >= 3:
+    	max_moves = int(sys.argv[2])
+    else:
+    	max_moves = 10
     f = open(filename)
     for i in range(3):
         f.readline()
@@ -16,7 +20,7 @@ def main():
     
     save_file = open(filename.split(".")[0] + ".txt", "w+")
     save_file.write("{} {}\n".format(height+2, width+2))
-    save_file.write("10\n")
+    save_file.write("{}\n".format(max_moves))
 
     for x in range(width + 2):
         save_file.write("#")

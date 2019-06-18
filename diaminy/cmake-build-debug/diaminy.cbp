@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/graph.cpp">
+			<Option target="diaminy"/>
+		</Unit>
 		<Unit filename="C:/Users/Pawel Maczuga PC/Documents/algorytmy/diaminy/main.cpp">
 			<Option target="diaminy"/>
 		</Unit>

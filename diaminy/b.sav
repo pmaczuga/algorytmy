@@ -1,0 +1,10 @@
+SAVEFILE:41:Simon Tatham's Portable Puzzle Collection
+VERSION :1:1
+GAME    :7:Inertia
+PARAMS  :3:8x8
+CPARAMS :3:8x8
+SEED    :15:777041684259002
+DESC    :64:smwsgbmmmmbwsbwsmbswgwmsmbgbswbmmbbmsggbbggwggbgsbwgwmSbwsbwswgs
+UI      :2:D0
+NSTATES :1:1
+STATEPOS:1:1

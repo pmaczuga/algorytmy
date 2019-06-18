@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/diaminy.dir/main.cpp.obj"
+  "CMakeFiles/diaminy.dir/graph.cpp.obj"
   "diaminy.pdb"
   "diaminy.exe"
   "diaminy.exe.manifest"
