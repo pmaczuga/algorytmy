@@ -3,6 +3,7 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="diaminy" targetName="diaminy" />
+      <config projectName="diaminy" targetName="diaminy1" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -12,77 +13,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8636599-3e15-4f7c-b419-7aaf5e0b28cc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/CXX.includecache" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/build.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/link.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/diaminy.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/diaminy.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/diaminy.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/diaminy.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/diaminy.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/maze.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/maze2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/puzzle.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/graph.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/make_maze.py" beforeDir="false" afterPath="$PROJECT_DIR$/make_maze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/puzzle.sav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/puzzle1.sav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/puzzle2.sav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/dimacs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/grademe.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/b100" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/b20" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/b30" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e10" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e10.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e150" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e20" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e20.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e40" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/e5.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/f30" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/f35" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/f40" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/f56" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/k330_f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m100" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m20" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m20.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m30" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m30.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m40" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/m50" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p150" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p20" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p20.sol" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p200" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p35" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/p60" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r100_005" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r100_01" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r200_001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r200_005" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r30_01" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r30_05" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r50_001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r50_01" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/r50_05" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/s25" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/s50" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/graph/s500" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/lab1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/verify.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maze.txt" beforeDir="false" afterPath="$PROJECT_DIR$/maze.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/puzzle.txt" beforeDir="false" afterPath="$PROJECT_DIR$/puzzle.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -92,14 +48,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+            <state relative-caret-position="90">
+              <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -107,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graph.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+            <state relative-caret-position="370">
+              <caret line="248" column="5" lean-forward="true" selection-start-line="248" selection-start-column="5" selection-end-line="248" selection-end-column="5" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -119,18 +78,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="43" column="34" lean-forward="true" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+            <state relative-caret-position="-690">
+              <caret line="230" column="27" selection-start-line="230" selection-start-column="27" selection-end-line="230" selection-end-column="27" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/b.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -141,6 +95,7 @@
       <find>it</find>
       <find>list</find>
       <find>empla</find>
+      <find>state</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -156,6 +111,7 @@
       </list>
     </option>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="224" />
     <option name="y" value="-22" />
@@ -183,6 +139,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -200,8 +157,13 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.diaminy">
-    <configuration name="diaminy" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-l b.txt" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy">
+  <component name="RunManager" selected="CMake Application.diaminy1">
+    <configuration name="diaminy" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-l puzzle.txt" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="diaminy1" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-l puzzle.txt" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="diaminy" TARGET_NAME="diaminy1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="diaminy" RUN_TARGET_NAME="diaminy1">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -212,8 +174,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.diaminy" />
-      <item itemvalue="Application.maze" />
+      <item itemvalue="CMake Application.diaminy" />
+      <item itemvalue="CMake Application.diaminy1" />
+      <item itemvalue="CMake Application.maze" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -229,27 +192,28 @@
       <workItem from="1560776441068" duration="20774000" />
       <workItem from="1560841769675" duration="978000" />
       <workItem from="1560847480206" duration="9159000" />
+      <workItem from="1560949738846" duration="16578000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30911000" />
+    <option name="totallyTimeSpent" value="47489000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2584394" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32937366" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32829374" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.32829374" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
@@ -265,20 +229,25 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/toSend.cpp" />
-    <entry file="file://$PROJECT_DIR$/b.txt">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/b.txt" />
+    <entry file="file:///usr/include/c++/7/bits/stl_function.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="385" column="19" selection-start-line="385" selection-start-column="19" selection-end-line="385" selection-end-column="19" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+        <state relative-caret-position="90">
+          <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="43" column="34" lean-forward="true" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+        <state relative-caret-position="-690">
+          <caret line="230" column="27" selection-start-line="230" selection-start-column="27" selection-end-line="230" selection-end-column="27" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -287,8 +256,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+        <state relative-caret-position="370">
+          <caret line="248" column="5" lean-forward="true" selection-start-line="248" selection-start-column="5" selection-end-line="248" selection-end-column="5" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>

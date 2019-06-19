@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/diaminy1.dir/graph.cpp.o  -o diaminy1 

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <list>
 #include <vector>
+#include <map>
 #include <iterator>
 #include <algorithm>
 #include <limits>
@@ -11,44 +12,85 @@
 using namespace std;
 
 enum Field { Wall = 1, Jewel, Mine, Hole, Empty };
-struct Vector2 { int x; int y; Vector2() : x(0), y(0) { }; Vector2(int _x, int _y) : x(_x), y(_y) {} };
-struct State { int movesLeft; int jewelsLeft; };
-struct Move { Vector2 newPos; bool valid; vector <Vector2> jewelsOnPath; };
+struct Vector2{
+    int x;
+    int y;
+    Vector2() : x(0), y(0) { };
+    Vector2(int _x, int _y) : x(_x), y(_y) { };
+    int hash() const { return ((x + y) * (x + y + 1)) / 2 + x; };
+    bool operator<(Vector2 other) const { return this->hash() < other.hash(); };
+};
 
 bool logged = false;
-string noSolString = "BRAK";
+const string noSolString = "BRAK";
 
 int height;
 int width;
 int maxMoves;
-int jewels;
+int allJewelsCount = 0;
 int maxJewelsInRow = 0;
 Vector2 player;
 vector <Vector2> jewelsPositions;
 Field maze[200][200];
-State fieldState[200][200];
-Move movementArray[200][200][8];
 
 
 // -----------------------GRAPH----------------------------------
+struct State { int movesLeft; int jewelsLeft; };
 struct Edge { int dir; int neighbour; vector <int> jewels; };
-struct Vertex { int id; list <Edge> edges; };
-struct Graph { vector <Vertex> vertexes; };
+struct Vertex { int id; State state; list <Edge *> edges; };
+struct Graph { vector <Vertex *> vertexes; };
 
-int addVertex(Graph G) {
-    int id = G.vertexes.size();
-    Vertex vertex;
-    vertex.id = id;
-    G.vertexes.push_back(vertex);
+Graph *initGraph() {
+    Graph *G = new Graph();
+    return G;
 }
 
-void addEdge(Graph G, int from, int to, int dir, vector <int> jewels) {
-    Edge edge;
-    edge.dir = dir;
-    edge.neighbour = to;
-    edge.jewels = jewels;
-    G.vertexes[from].edges.push_back(edge);
+int addVertex(Graph *G) {
+    int id = G->vertexes.size();
+    State state;
+    state.movesLeft = 0;
+    state.jewelsLeft = numeric_limits<int>::max();
+    Vertex *vertex = new Vertex;
+    vertex->id = id;
+    vertex->state = state;
+    G->vertexes.push_back(vertex);
+    return id;
 }
+
+Edge *addEdge(Graph *G, int from, int to, int dir, vector <int> jewels) {
+    Edge *edge = new Edge;
+    edge->dir = dir;
+    edge->neighbour = to;
+    edge->jewels = jewels;
+    G->vertexes[from]->edges.push_back(edge);
+    return edge;
+}
+
+void printGraph(Graph *G) {
+    cout << endl << "GRAPH: " << endl;
+    for(auto & vertex : G->vertexes) {
+        cout << vertex->id;
+        for(auto & edge : vertex->edges) {
+            cout << "    " << edge->neighbour << " - dir: " << edge->dir << ", jewels: (";
+            for (auto & jewel : edge->jewels) {
+                cout << jewel << ", ";
+            }
+            cout << ")";
+        }
+        cout << endl;
+    }
+    cout << endl << endl;
+}
+
+void removeGraph(Graph *G) {
+    for (auto & vertex : G->vertexes) {
+        for (auto & edge : vertex->edges) {
+            free(edge);
+        }
+        free(vertex);
+    }
+    free(G);
+};
 //----------------------GRAPH-END--------------------------------
 
 void init(istream &instream) {
@@ -73,7 +115,7 @@ void init(istream &instream) {
             case '+':
                 maze[x][y] = Jewel;
                 jewelsPositions.emplace_back(x, y);
-                jewels++;
+                allJewelsCount++;
                 x++;
                 break;
             case '*':
@@ -90,8 +132,7 @@ void init(istream &instream) {
                 break;
             case '.':
                 maze[x][y] = Hole;
-                player.x = x;
-                player.y = y;
+                player = Vector2(x, y);
                 x++;
                 break;
             case '\n':
@@ -103,16 +144,10 @@ void init(istream &instream) {
                 exit(1);
         }
     }
+}
 
-    // init fieldState array;
-    State quiteBadState{};
-    quiteBadState.jewelsLeft = numeric_limits<int>::max();
-    quiteBadState.movesLeft = 0;
-    for (int i = 0;i < 200; i++) {
-        for (int j = 0; j < 200; j++) {
-            fieldState[i][j] = quiteBadState;
-        }
-    }
+int positionToInt(Vector2 pos) {
+    return pos.y * width + pos.x;
 }
 
 Vector2 directionToVector2(int direction) {
@@ -137,36 +172,75 @@ Vector2 directionToVector2(int direction) {
     return {0, 0};
 }
 
-void prepareMovementArray() {
+bool compare_edges (Edge *first, Edge *second)
+{
+    return first->jewels.size() > second->jewels.size();
+}
+
+Graph *prepareGraph() {
+    Graph *G = initGraph();
+    int jewelsCount = 0;
+    map <Vector2, int> jewelId;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            addVertex(G);
+            // if there is Jewel - add to ID map (pos -> id)
+            if (maze[x][y] == Jewel) {
+                jewelId[Vector2(x, y)] = jewelsCount;
+                jewelsCount++;
+            }
+        }
+    }
+
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             if (maze[x][y] == Empty || maze[x][y] == Hole || maze[x][y] == Jewel) {
-                for (int i = 0; i< 8; i++) {
+                for (int dirAsInt = 0; dirAsInt < 8; dirAsInt++) {
                     int newX = x;
                     int newY = y;
-                    int jewelsInRow = 0;
-                    Vector2 direction = directionToVector2(i);
-                    movementArray[x][y][i] = Move();
+                    bool mineExplodedAndDestroyedOurWholeUniverse = false;
+                    Vector2 direction = directionToVector2(dirAsInt);
+                    vector <int> jewelsOnPath;
+
+                    // if there is wall in next position - break - we would stay where we are
+                    if (maze[x + direction.x][y + direction.y] == Wall) {
+                        continue;
+                    }
+
                     while(maze[newX + direction.x][newY + direction.y] != Wall) {
                         newX = newX + direction.x;
                         newY = newY + direction.y;
 
                         if (maze[newX][newY] == Jewel) {
-                            movementArray[x][y][i].jewelsOnPath.push_back(Vector2(newX, newY));
-                            jewelsInRow++;
-                        } else if (maze[newX][newY] == Hole || maze[newX][newY] == Mine) {
+                            jewelsOnPath.push_back(jewelId[Vector2(newX, newY)]);
+                        } else if (maze[newX][newY] == Hole) {
+                            break;
+                        } else if (maze[newX][newY] == Mine) {
+                            mineExplodedAndDestroyedOurWholeUniverse = true;
                             break;
                         }
                     }
-                    movementArray[x][y][i].newPos = Vector2(newX, newY);
-                    if (jewelsInRow > maxJewelsInRow) maxJewelsInRow = jewelsInRow;
+
+                    if (!mineExplodedAndDestroyedOurWholeUniverse) {
+                        int thisVertex = positionToInt(Vector2(x, y));
+                        int neighbourVertex = positionToInt(Vector2(newX, newY));
+                        addEdge(G, thisVertex, neighbourVertex, dirAsInt, jewelsOnPath);
+                        if (jewelsOnPath.size() > maxJewelsInRow) maxJewelsInRow = jewelsOnPath.size();
+                    }
                 }
             }
         }
     }
+
+    // sort edges by number of jewels
+    for (auto & vertex : G->vertexes) {
+        vertex->edges.sort(compare_edges);
+    }
+
+    return G;
 }
 
-string solveRecursive(Vector2 pos, int jewelsLeft, int movesLeft) {
+string solveRecursive(Graph *G, int pos, int jewelsLeft, int movesLeft, bool foundJewels[]) {
     if (jewelsLeft == 0) {
         return "";
     }
@@ -174,18 +248,89 @@ string solveRecursive(Vector2 pos, int jewelsLeft, int movesLeft) {
         return noSolString;
     }
 
-    for (int dir = 0; dir < 8; dir++) {
-        Vector2 newPos
+    // if there are not enough moves to collect remaining jewels - we lost
+    if (movesLeft * maxJewelsInRow < jewelsLeft) {
+        return noSolString;
     }
+
+    // if we are in worse state than before - no point checking further
+    State state = G->vertexes[pos]->state;
+    if (jewelsLeft >= state.jewelsLeft && movesLeft <= state.movesLeft) {
+        return noSolString;
+    }
+
+    // if we are in definitely better state - update
+    if (jewelsLeft <= state.jewelsLeft && movesLeft >= state.movesLeft) {
+        G->vertexes[pos]->state.movesLeft = movesLeft;
+        G->vertexes[pos]->state.jewelsLeft = jewelsLeft;
+    }
+
+    int removedJewels[maxJewelsInRow];
+    int sizeOfRemovedJewels = 0;
+    for (auto & edge : G->vertexes[pos]->edges) {
+        // mark jewels on that edge
+        sizeOfRemovedJewels = 0;
+        for (auto & jewel : edge->jewels) {
+            if (!foundJewels[jewel]) { removedJewels[sizeOfRemovedJewels] = jewel; sizeOfRemovedJewels++; }
+            foundJewels[jewel] = true;
+        }
+
+        // find solution going through that edge
+        string sol = solveRecursive(G, edge->neighbour, jewelsLeft - sizeOfRemovedJewels, movesLeft - 1, foundJewels);
+        if (sol != noSolString) {
+            return to_string(edge->dir) + sol;
+        }
+
+        // no solution - unmark jewels
+        for (int i = 0; i < sizeOfRemovedJewels; i++) {
+            foundJewels[removedJewels[i]] = false;
+        }
+    }
+
     return noSolString;
 }
 
 string solve() {
+    Graph *G = prepareGraph();
+    if (logged) printGraph(G);
 
+    bool foundJewels[allJewelsCount];
+    for (int i = 0; i < allJewelsCount; i++) foundJewels[i] = false;
+    string sol = solveRecursive(G, positionToInt(player), allJewelsCount, maxMoves, foundJewels);
+
+    removeGraph(G);
+
+    return sol;
+}
+
+void print_maze() {
+    cout << endl << "MAZE: " << endl;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            switch (maze[x][y]) {
+                case Wall:
+                    cout << "#";
+                    break;
+                case Empty:
+                    cout << " ";
+                    break;
+                case Mine:
+                    cout << "*";
+                    break;
+                case Jewel:
+                    cout << "+";
+                    break;
+                case Hole:
+                    cout << "O";
+                    break;
+            }
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 int main(int argc, char *argv[]) {
-
     int firstArg = 1;
     if (argc >= 2 && string(argv[1]) == "-l"){ logged = true; firstArg = 2; }
 
@@ -195,6 +340,8 @@ int main(int argc, char *argv[]) {
         ifstream instream(argv[firstArg]);
         init(instream);
     }
+
+    if (logged) print_maze();
 
     auto start = chrono::system_clock::now();
 

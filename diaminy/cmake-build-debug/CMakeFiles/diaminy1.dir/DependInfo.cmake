@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pawel/Documents/algorytmy/diaminy/main.cpp" "/home/pawel/Documents/algorytmy/diaminy/cmake-build-debug/CMakeFiles/diaminy.dir/main.cpp.o"
+  "/home/pawel/Documents/algorytmy/diaminy/graph.cpp" "/home/pawel/Documents/algorytmy/diaminy/cmake-build-debug/CMakeFiles/diaminy1.dir/graph.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

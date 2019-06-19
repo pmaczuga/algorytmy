@@ -59,7 +59,7 @@ bool logged = false;
 int height;
 int width;
 int maxMoves;
-int jewels = 0;
+int allJewelsCount = 0;
 int maxJewelsInRow = 0;
 Field maze[200][200];
 State fieldState[200][200];
@@ -88,7 +88,7 @@ void init(istream &instream) {
                 break;
             case '+':
                 maze[x][y] = Jewel;
-                jewels++;
+                allJewelsCount++;
                 x++;
                 break;
             case '*':
@@ -306,7 +306,7 @@ string solve() {
     prepareMovementArray();
     if (logged) cout << "Done preparing!" << endl;
     for (int i = 0; i < 8; i++) {
-        string sol = solve_recursive(player.pos, i, jewels, maxMoves);
+        string sol = solve_recursive(player.pos, i, allJewelsCount, maxMoves);
         if (sol != noSolString)
             return sol;
     }
