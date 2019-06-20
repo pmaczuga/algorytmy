@@ -105,6 +105,8 @@ void init(istream &instream) {
     int x = 0;
     int y = 0;
     while (!instream.eof()) {
+        if (y == height) break;
+
         instream >> noskipws >> character;
 
         switch (character) {
@@ -131,7 +133,7 @@ void init(istream &instream) {
                 x++;
                 break;
             case '.':
-                maze[x][y] = Hole;
+                maze[x][y] = Empty;
                 player = Vector2(x, y);
                 x++;
                 break;
@@ -140,8 +142,7 @@ void init(istream &instream) {
                 y++;
                 break;
             default:
-                cout << "Illegal character" << endl;
-                exit(1);
+                break;
         }
     }
 }
@@ -202,12 +203,20 @@ Graph *prepareGraph() {
                     Vector2 direction = directionToVector2(dirAsInt);
                     vector <int> jewelsOnPath;
 
-                    // if there is wall in next position - break - we would stay where we are
+                    // if there is wall in next position - continue - we would stay where we are
                     if (maze[x + direction.x][y + direction.y] == Wall) {
+                        continue;
+                    }
+                    // if we are out of the maze - continue
+                    if (x + direction.x < 0 || x + direction.x >= width || y + direction.y < 0 || y + direction.y >= height) {
                         continue;
                     }
 
                     while(maze[newX + direction.x][newY + direction.y] != Wall) {
+                        if (newX + direction.x < 0 || newX + direction.x >= width || newY + direction.y < 0 || newY + direction.y >= height) {
+                            break;
+                        }
+
                         newX = newX + direction.x;
                         newY = newY + direction.y;
 
