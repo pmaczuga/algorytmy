@@ -22,7 +22,7 @@ struct Vector2{
 };
 
 bool logged = false;
-const string noSolString = "BRAK";
+const string NO_SOL = "BRAK";
 
 int height;
 int width;
@@ -36,7 +36,7 @@ Field maze[200][200];
 
 // -----------------------GRAPH----------------------------------
 struct State { int movesLeft; int jewelsLeft; };
-struct Edge { int dir; int neighbour; vector <int> jewels; };
+struct Edge { int dir; int neighbour; vector <int> jewels; int jewelsCount; };
 struct Vertex { int id; State state; list <Edge *> edges; };
 struct Graph { vector <Vertex *> vertexes; };
 
@@ -62,6 +62,7 @@ Edge *addEdge(Graph *G, int from, int to, int dir, vector <int> jewels) {
     edge->dir = dir;
     edge->neighbour = to;
     edge->jewels = jewels;
+    edge->jewelsCount = jewels.size();
     G->vertexes[from]->edges.push_back(edge);
     return edge;
 }
@@ -175,7 +176,7 @@ Vector2 directionToVector2(int direction) {
 
 bool compare_edges (Edge *first, Edge *second)
 {
-    return first->jewels.size() > second->jewels.size();
+    return first->jewelsCount > second->jewelsCount;
 }
 
 Graph *prepareGraph() {
@@ -249,23 +250,23 @@ Graph *prepareGraph() {
     return G;
 }
 
-string solveRecursive(Graph *G, int pos, int jewelsLeft, int movesLeft, bool foundJewels[]) {
+string solveRecursive(Graph *G, int pos, int previousPos, int jewelsLeft, int movesLeft, bool foundJewels[]) {
     if (jewelsLeft == 0) {
         return "";
     }
     if (movesLeft == 0) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // if there are not enough moves to collect remaining jewels - we lost
     if (movesLeft * maxJewelsInRow < jewelsLeft) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // if we are in worse state than before - no point checking further
     State state = G->vertexes[pos]->state;
     if (jewelsLeft >= state.jewelsLeft && movesLeft <= state.movesLeft) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // if we are in definitely better state - update
@@ -277,26 +278,37 @@ string solveRecursive(Graph *G, int pos, int jewelsLeft, int movesLeft, bool fou
     int removedJewels[maxJewelsInRow];
     int sizeOfRemovedJewels = 0;
     for (auto & edge : G->vertexes[pos]->edges) {
+
+        // there is no point in going back if we found no jewels
+        if (edge->neighbour == previousPos && edge->jewelsCount == 0) {
+            continue;
+        }
+
         // mark jewels on that edge
         sizeOfRemovedJewels = 0;
         for (auto & jewel : edge->jewels) {
-            if (!foundJewels[jewel]) { removedJewels[sizeOfRemovedJewels] = jewel; sizeOfRemovedJewels++; }
-            foundJewels[jewel] = true;
+            if (!foundJewels[jewel]) {
+                removedJewels[sizeOfRemovedJewels] = jewel;
+                sizeOfRemovedJewels++;
+                edge->jewelsCount--;
+                foundJewels[jewel] = true;
+            }
         }
 
         // find solution going through that edge
-        string sol = solveRecursive(G, edge->neighbour, jewelsLeft - sizeOfRemovedJewels, movesLeft - 1, foundJewels);
-        if (sol != noSolString) {
+        string sol = solveRecursive(G, edge->neighbour, pos, jewelsLeft - sizeOfRemovedJewels, movesLeft - 1, foundJewels);
+        if (sol != NO_SOL) {
             return to_string(edge->dir) + sol;
         }
 
         // no solution - unmark jewels
         for (int i = 0; i < sizeOfRemovedJewels; i++) {
             foundJewels[removedJewels[i]] = false;
+            edge->jewelsCount++;
         }
     }
 
-    return noSolString;
+    return NO_SOL;
 }
 
 string solve() {
@@ -305,7 +317,7 @@ string solve() {
 
     bool foundJewels[allJewelsCount];
     for (int i = 0; i < allJewelsCount; i++) foundJewels[i] = false;
-    string sol = solveRecursive(G, positionToInt(player), allJewelsCount, maxMoves, foundJewels);
+    string sol = solveRecursive(G, positionToInt(player), positionToInt(player), allJewelsCount, maxMoves, foundJewels);
 
     removeGraph(G);
 

@@ -54,7 +54,7 @@ struct State {
     int jewelsLeft;
 };
 
-string noSolString = "BRAK";
+string NO_SOL = "BRAK";
 bool logged = false;
 int height;
 int width;
@@ -218,24 +218,24 @@ string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesL
 
     // if we don't have more moves - we lost
     if (movesLeft == 0) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // if there is not enough moves to collect all jewels - we lost
     if (movesLeft * maxJewelsInRow < jewelsLeft) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // if we won't move (because of wall) - there is no point checking further
     if (maze[pos.getX() + direction.getX()][pos.getY() + direction.getY()] == Wall) {
-        return noSolString;
+        return NO_SOL;
     }
 
     // make move
     Move *move = &movementArray[pos.getX()][pos.getY()][intDirection];
     pos = move->newPos;
     if (maze[pos.getX()][pos.getY()] == Mine) {
-        return noSolString;
+        return NO_SOL;
     }
     vector <Vector2> :: iterator it;
     for (it = move->jewelsOnPath.begin(); it != move->jewelsOnPath.end(); ++it) {
@@ -251,7 +251,7 @@ string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesL
 //
 //        if (maze[pos.getX()][pos.getY()] == Mine) {
 //            putJewelsBack(&foundJewels);
-//            return noSolString;
+//            return NO_SOL;
 //        } else if (maze[pos.getX()][pos.getY()] == Jewel) {
 //            maze[pos.getX()][pos.getY()] = Empty;
 //            jewelsLeft--;
@@ -270,7 +270,7 @@ string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesL
     State previousState = fieldState[pos.getX()][pos.getY()];
     if (movesLeft <= previousState.movesLeft && jewelsLeft >= previousState.jewelsLeft) {
         putJewelsBack(&foundJewels);
-        return noSolString;
+        return NO_SOL;
     }
 
     // if we are in definitely better state - save that to fieldState array
@@ -291,7 +291,7 @@ string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesL
             continue;
 
         string sol = solve_recursive(pos, newDirection, jewelsLeft, movesLeft - 1);
-        if (sol != noSolString) {
+        if (sol != NO_SOL) {
             return to_string(intDirection) + sol;
         }
     }
@@ -299,7 +299,7 @@ string solve_recursive(Vector2 pos, int intDirection, int jewelsLeft, int movesL
     // put back all jewels
     putJewelsBack(&foundJewels);
 
-    return noSolString;
+    return NO_SOL;
 }
 
 string solve() {
@@ -307,10 +307,10 @@ string solve() {
     if (logged) cout << "Done preparing!" << endl;
     for (int i = 0; i < 8; i++) {
         string sol = solve_recursive(player.pos, i, allJewelsCount, maxMoves);
-        if (sol != noSolString)
+        if (sol != NO_SOL)
             return sol;
     }
-    return noSolString;
+    return NO_SOL;
 }
 
 void print_maze() {
