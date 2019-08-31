@@ -37,7 +37,7 @@ Field maze[200][200];
 // -----------------------GRAPH----------------------------------
 struct State { int movesLeft; int jewelsLeft; };
 struct Edge { int dir; int neighbour; vector <int> jewels; int jewelsCount; };
-struct Vertex { int id; State state; list <Edge *> edges; };
+struct Vertex { int id; State state; vector <Edge *> edges;};
 struct Graph { vector <Vertex *> vertexes; };
 
 Graph *initGraph() {
@@ -80,6 +80,22 @@ void printGraph(Graph *G) {
         }
         cout << endl;
     }
+    cout << endl << endl;
+}
+
+void printGraphNicer(Graph *G) {
+    cout << endl << "NICER GRAPH: " << endl;
+    cout << "digraph G {" << endl;
+    for(auto & vertex : G->vertexes) {
+        for(auto & edge : vertex->edges) {
+            cout << vertex->id << " -> " << edge->neighbour;
+            if (edge->jewelsCount > 0) {
+                cout << " [ color=\"0.0 1.0 1.0\" ]";
+            }
+            cout << ";" << endl;
+        }
+    }
+    cout << "}";
     cout << endl << endl;
 }
 
@@ -243,11 +259,88 @@ Graph *prepareGraph() {
     }
 
     // sort edges by number of jewels
-    for (auto & vertex : G->vertexes) {
-        vertex->edges.sort(compare_edges);
-    }
-
+//    for (auto & vertex : G->vertexes) {
+//        vertex->edges.sort(compare_edges);
+//    }
+//
     return G;
+}
+
+bool implementationSearchDFS(Graph *G, Vertex *start, Vertex *vertexToFind, bool stopAfterJewel, bool *visited) {
+    if (start == vertexToFind) {
+        return true;
+    }
+    visited[start->id] = true;
+    for (auto & edge : start->edges) {
+        if (edge->jewelsCount > 0 && stopAfterJewel) {
+            return true;
+        }
+        if (visited[edge->neighbour]) {
+            continue;
+        }
+        if (implementationSearchDFS(G, G->vertexes[edge->neighbour], vertexToFind, stopAfterJewel, visited)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool searchDFS(Graph *G, Vertex *start, Vertex *vertexToFind, bool stopAfterJewel) {
+    bool *visited = new bool[G->vertexes.size()];
+    for (int i = 0; i < G->vertexes.size(); i++) {
+        visited[i] =false;
+    }
+    bool result = implementationSearchDFS(G, start, vertexToFind, stopAfterJewel, visited);
+    delete[] visited;
+    return result;
+}
+
+void removeUselessSubgraphs(Graph *G, int startVertexAsInt) {
+    Vertex *startVertex = G->vertexes[startVertexAsInt];
+    for (auto & vertex : G->vertexes) {
+        for (int i = 0; i < vertex->edges.size(); i++) {
+            Edge *firstRemovedEdge = vertex->edges.back();
+            Edge *secondRemovedEdge = NULL;
+            if (firstRemovedEdge->jewelsCount >0) {
+                continue;
+            }
+            vertex->edges.pop_back();
+
+            Vertex *neighbour = G->vertexes[firstRemovedEdge->neighbour];
+            for (int j = 0; j< neighbour->edges.size(); j++) {
+                Edge *neighbourEdge = neighbour->edges[j];
+                if (neighbourEdge->neighbour == vertex->id && neighbourEdge->jewelsCount == 0) {
+                    secondRemovedEdge = neighbourEdge;
+                    neighbour->edges.erase(neighbour->edges.begin() + j);
+                    break;
+                }
+            }
+
+            bool canBeRemoved = true;
+            if (searchDFS(G, startVertex, vertex, false)) {
+                if (searchDFS(G, neighbour, startVertex, true)) {
+                    canBeRemoved = false;
+                }
+            } else {
+                if (searchDFS(G, vertex, NULL, true)) {
+                    canBeRemoved = false;
+                }
+            }
+
+            if (!canBeRemoved) {
+                vertex->edges.insert(vertex->edges.begin(), firstRemovedEdge);
+                if (secondRemovedEdge) {
+                    neighbour->edges.insert(neighbour->edges.begin(), secondRemovedEdge);
+                }
+            }
+            else if (logged) {
+                cout << "Removed edge: " << vertex->id << " -> " << neighbour->id << endl;
+                if (secondRemovedEdge) {
+                    cout << "Removed edge: " << neighbour->id << " -> " << vertex->id << endl;
+                }
+            }
+        }
+    }
 }
 
 string solveRecursive(Graph *G, int pos, int previousPos, int jewelsLeft, int movesLeft, bool foundJewels[]) {
@@ -313,7 +406,9 @@ string solveRecursive(Graph *G, int pos, int previousPos, int jewelsLeft, int mo
 
 string solve() {
     Graph *G = prepareGraph();
-    if (logged) printGraph(G);
+    if (logged) printGraph(G); printGraphNicer(G);
+
+    removeUselessSubgraphs(G, positionToInt(player));
 
     bool foundJewels[allJewelsCount];
     for (int i = 0; i < allJewelsCount; i++) foundJewels[i] = false;
