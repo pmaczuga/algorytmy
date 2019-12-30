@@ -1,2 +1,2 @@
 Projekt diaminy
-Opis: [diaminy.pdf]
+Opis: [diaminy.pdf](diaminy.pdf)
